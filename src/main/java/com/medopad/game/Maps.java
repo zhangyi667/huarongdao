@@ -2,9 +2,6 @@ package com.medopad.game;
 
 import java.util.Arrays;
 
-/**
- * Created by coco on 16/8/13.
- */
 public class Maps {
     protected int[] maps;
     public int cols;
