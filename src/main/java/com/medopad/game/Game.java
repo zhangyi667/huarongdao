@@ -2,7 +2,7 @@ package com.medopad.game;
 
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
+import java.util.Queue;
 
 
 public class Game {
@@ -11,7 +11,7 @@ public class Game {
     protected int cols;
 
     protected Snapshot root;
-    List<Snapshot> list;
+    Queue<Snapshot> queue;
 
     HashSet<String> collections = new HashSet<>();
 
@@ -28,21 +28,20 @@ public class Game {
 
     }
 
-    public Snapshot find()
-    {
+    public Snapshot find() {
         Snapshot node;
         String key;
         LinkedList<Snapshot> nexts;
 
         root = new Snapshot(maps, rows, cols);
-        list = new LinkedList<>();
-        list.add(root);
+        queue = new LinkedList<>();
+        queue.add(root);
         key = root.getHashKey();
         collections.add(key);
 
-        while (!list.isEmpty()) {
-            node = list.remove(0);
-
+        while (!queue.isEmpty()) {
+            node = queue.poll();
+            if(null == node) continue;
             nexts = node.listAllPossibleNextMove();
 
             for (Snapshot next : nexts) {
@@ -53,7 +52,7 @@ public class Game {
                 collections.add(key);
 
                 node.add(next);
-                list.add(next);
+                queue.offer(next);
 
                 if (next.isEnd(endPosition1, endPosition2)) {
                     return next;

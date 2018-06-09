@@ -28,24 +28,31 @@ public class Main {
          *
          * **/
 
-        Game game = new Game(maps, 5, 4, new Point(1, 4), new Point(2, 4));
-        Snapshot snapshot = game.find();
-        Stack<Snapshot> stack = new Stack<Snapshot>();
-        while (snapshot != null) {
-            stack.add(snapshot);
-            snapshot = snapshot.parent;
-        }
+        Stack<Snapshot> stack = getSnapshots(maps);
 
+        printAllMoves(stack);
+        System.out.println("In total " + (System.currentTimeMillis() - current) + " milli seconds");
+    }
+
+    private static void printAllMoves(Stack<Snapshot> stack) {
         int steps = 0;
         while (!stack.empty()) {
             Snapshot temp = stack.pop();
             System.out.println("----------------");
             temp.print();
-
             steps++;
         }
-
         System.out.println("total step: "+steps);
-        System.out.println("In total " + (System.currentTimeMillis() - current) + " milli seconds");
+    }
+
+    private static Stack<Snapshot> getSnapshots(int[] maps) {
+        Game game = new Game(maps, 5, 4, new Point(1, 4), new Point(2, 4));
+        Snapshot snapshot = game.find();
+        Stack<Snapshot> stack = new Stack<>();
+        while (snapshot != null) {
+            stack.add(snapshot);
+            snapshot = snapshot.getParent();
+        }
+        return stack;
     }
 }

@@ -12,6 +12,14 @@ public class Snapshot {
 
     private Point empty2;
 
+    public Snapshot getParent() {
+        return parent;
+    }
+
+    private void setParent(Snapshot parent) {
+        this.parent = parent;
+    }
+
     enum Direction {
         LEFT,
         RIGHT,
@@ -19,7 +27,7 @@ public class Snapshot {
         DOWN
     }
 
-    Snapshot parent = null;
+    private Snapshot parent = null;
     private LinkedList<Snapshot> children = new LinkedList<>();
 
 
@@ -31,7 +39,6 @@ public class Snapshot {
 
     public Snapshot(int maps[], int rows, int cols) {
         this.maps = new Maps(maps, rows, cols);
-
         Point[] points = this.maps.space();
         empty1 = points[0];
         empty2 = points[1];
@@ -39,7 +46,7 @@ public class Snapshot {
 
 
     public LinkedList<Snapshot> listAllPossibleNextMove() {
-        LinkedList<Snapshot> arr = new NotNullLinkedList<Snapshot>();
+        LinkedList<Snapshot> arr = new NotNullLinkedList<>();
         for (Direction d : Direction.values()) {
             arr.add(createSnapshot1(empty1, d));
             arr.add(createSnapshot2(empty2, d));
@@ -324,7 +331,7 @@ public class Snapshot {
 
     public void add(Snapshot child) {
         children.add(child);
-        child.parent = this;
+        child.setParent(this);
     }
 
     public boolean isEnd(Point endPosition1, Point endPosition2) {
