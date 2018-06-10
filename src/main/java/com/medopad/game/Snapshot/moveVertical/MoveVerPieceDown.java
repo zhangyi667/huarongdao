@@ -13,12 +13,12 @@ public class MoveVerPieceDown extends MoveVerPiece {
 
     void setSpaceButtons() {
         assert val == Point.VERTICAL_PIECE_TOP;
-        space1.y += 2;
+        space1.y += VER_HEIGHT;
     }
 
     public void movePiece(Point point, int val) {
-        this.maps.set(this.space1, val);
-        this.maps.set(this.space1.getNeighbour(direction), Point.VERTICAL_PIECE_BOTTOM);
-        this.maps.set(this.space1.offsetY(+2), Point.SPACE);
+        this.maps.set(point, val);
+        this.maps.set(point.getNeighbour(direction), Point.VERTICAL_PIECE_BOTTOM);
+        this.maps.set(point.offsetY(+2), Point.SPACE);
     }
 }

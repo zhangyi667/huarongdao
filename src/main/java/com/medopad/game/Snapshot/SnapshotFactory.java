@@ -1,6 +1,7 @@
 package com.medopad.game.Snapshot;
 
 import com.medopad.game.Point;
+import com.medopad.game.Snapshot.moveD.MoveDBuilder;
 import com.medopad.game.Snapshot.moveHorizon.MoveHorizonBuilder;
 import com.medopad.game.Snapshot.moveSingle.MoveSingleBuilder;
 import com.medopad.game.Snapshot.moveVertical.MoveVerticalBuilder;
@@ -14,6 +15,8 @@ public class SnapshotFactory {
             return MoveHorizonBuilder.build(val, snapshot, direction);
         } else if (val == Point.VERTICAL_PIECE_TOP || val == Point.VERTICAL_PIECE_BOTTOM) {
             return MoveVerticalBuilder.build(val, snapshot, direction);
+        } else if (val >= 6) {
+            return MoveDBuilder.build(val, snapshot, direction);
         }
         return null;
     }

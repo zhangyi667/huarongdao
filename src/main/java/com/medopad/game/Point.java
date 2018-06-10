@@ -63,4 +63,21 @@ public class Point {
     {
         return new Point(x + stepX, y + stepY);
     }
+
+
+    public boolean isSinglePiece(int val) {
+        return val == SINGLE_PIECE;
+    }
+
+    public boolean belongsToVertivalPiece(int val) {
+        return val == VERTICAL_PIECE_BOTTOM || val == VERTICAL_PIECE_TOP;
+    }
+
+    public boolean belongsToHorizonPiece(int val) {
+        return val == HOR_PIECE_RIGHT || val == HOR_PIECE_LEFT;
+    }
+
+    public boolean belongsToDPiece(int val) {
+        return val > 6;
+    }
 }

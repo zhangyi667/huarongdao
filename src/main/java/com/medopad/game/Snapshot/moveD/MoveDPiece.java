@@ -1,19 +1,19 @@
-package com.medopad.game.Snapshot.moveVertical;
+package com.medopad.game.Snapshot.moveD;
 
 import com.medopad.game.Point;
 import com.medopad.game.Snapshot.Direction;
 import com.medopad.game.Snapshot.Snapshot;
 
-public abstract class MoveVerPiece extends Snapshot {
+public abstract class MoveDPiece extends Snapshot {
 
     Direction direction;
 
     int val;
 
-    protected static final int VER_HEIGHT = 2;
-    protected static final int VER_LENGTH = 1;
+    protected static final int D_LENGTH = 2;
+    protected static final int D_HEIGHT = 2;
 
-    public MoveVerPiece(Snapshot from, Direction direction, int val) {
+    public MoveDPiece(Snapshot from, Direction direction, int val) {
         super(from);
         this.direction = direction;
         this.val = val;

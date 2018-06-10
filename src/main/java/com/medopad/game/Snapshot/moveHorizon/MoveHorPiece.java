@@ -23,5 +23,14 @@ public abstract class MoveHorPiece extends Snapshot {
 
     public abstract void movePiece(Point point, int val);
 
+    public void movePieceVertically(Point point, int val) {
+        if (val == Point.HOR_PIECE_RIGHT) {
+            this.maps.set(point.left(), Point.HOR_PIECE_LEFT);
+            this.maps.set(point.offset(-1, +1), Point.SPACE);
+        } else if (val == Point.HOR_PIECE_LEFT) {
+            this.maps.set(point.right(), Point.HOR_PIECE_RIGHT);
+            this.maps.set(point.offset(1, 1), Point.SPACE);
+        }
 
+    }
 }

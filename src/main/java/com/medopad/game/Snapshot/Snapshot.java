@@ -3,9 +3,6 @@ package com.medopad.game.Snapshot;
 import com.medopad.Util.NotNullLinkedList;
 import com.medopad.game.Maps;
 import com.medopad.game.Point;
-import com.medopad.game.Snapshot.moveHorizon.MoveHorPiece;
-import com.medopad.game.Snapshot.moveSingle.MoveSingle;
-import com.medopad.game.Snapshot.moveVertical.MoveVerPiece;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -68,219 +65,27 @@ public class Snapshot {
 
 
     protected Snapshot createSnapshot1(Direction direction) {
-        int val;
-        Snapshot snapshot = null;
-
         if (direction == Direction.LEFT && this.space1.x >= 1) {
-            val = maps.get(this.space1.getNeighbour(direction));
-            if (val == Point.SINGLE_PIECE) {
-                snapshot = SnapshotFactory.getSnapshot(val, direction, this);
-                assert snapshot instanceof MoveSingle;
-                snapshot.movePiece(this.space1, val);
-            } else if (val == Point.HOR_PIECE_RIGHT) {
-                snapshot = SnapshotFactory.getSnapshot(val, direction, this);
-                assert snapshot instanceof MoveHorPiece;
-                snapshot.movePiece(this.space1, val);
-            } else if (val == Point.VERTICAL_PIECE_TOP && twoSpaceVerticallyAdjacent()) {
-//                snapshot = new Snapshot(this);
-//                snapshot.space1.x -= 1;
-//                snapshot.space2.x -= 1;
-//                snapshot.maps.set(this.space1, 4);
-//                snapshot.maps.set(this.space1.left(), 0);
-//                snapshot.maps.set(this.space1.down(), 5);
-//                snapshot.maps.set(this.space1.offset(-1, 1), 0);
-
-                snapshot = SnapshotFactory.getSnapshot(val, direction, this);
-                assert snapshot instanceof MoveVerPiece;
-                snapshot.movePiece(this.space1, val);
-            } else if (val == Point.VERTICAL_PIECE_BOTTOM && maps.get(this.space1.up()) == 0) {
-//                snapshot = new Snapshot(this);
-//                snapshot.space1.x -= 1;
-//                snapshot.space2.x -= 1;
-//                snapshot.maps.set(this.space1, 5);
-//                snapshot.maps.set(this.space1.left(), 0);
-//                snapshot.maps.set(this.space1.up(), 4);
-//                snapshot.maps.set(this.space1.offset(-1, -1), 0);
-
-                snapshot = SnapshotFactory.getSnapshot(val, direction, this);
-                assert snapshot instanceof MoveVerPiece;
-                snapshot.movePiece(this.space1, val);
-            } else if (val == Point.D_PIECE_RIGHT_TOP && twoSpaceVerticallyAdjacent()) {
-                snapshot = new Snapshot(this);
-                snapshot.space1.x -= 2;
-                snapshot.space2.x -= 2;
-                snapshot.maps.set(this.space1, 7);
-                snapshot.maps.set(this.space1.down(), 9);
-                snapshot.maps.set(this.space1.left(), 6);
-                snapshot.maps.set(this.space1.offset(-1, 1), 8);
-                snapshot.maps.set(this.space1.offsetX(-2), 0);
-                snapshot.maps.set(this.space1.offset(-2, 1), 0);
-            } else if (val == Point.D_PIECE_RIGHT_BOT && maps.get(this.space1.up()) == 0) {
-                snapshot = new Snapshot(this);
-                snapshot.space1.x -= 2;
-                snapshot.space2.x -= 2;
-                snapshot.maps.set(this.space1, 9);
-                snapshot.maps.set(this.space1.up(), 7);
-                snapshot.maps.set(this.space1.left(), 8);
-                snapshot.maps.set(this.space1.offset(-1, -1), 6);
-                snapshot.maps.set(this.space1.offsetX(-2), 0);
-                snapshot.maps.set(this.space1.offset(-2, -1), 0);
-            }
-        } else if (direction == Direction.RIGHT && this.space1.x < maps.cols - 1) {
-            val = maps.get(this.space1.getNeighbour(direction));
-            if (val == Point.SINGLE_PIECE) {
-                snapshot = SnapshotFactory.getSnapshot(val, direction, this);
-                assert snapshot instanceof MoveSingle;
-                snapshot.movePiece(this.space1, val);
-            } else if (val == Point.HOR_PIECE_LEFT) {
-                snapshot = SnapshotFactory.getSnapshot(val, direction, this);
-                assert snapshot instanceof MoveHorPiece;
-                snapshot.movePiece(this.space1, val);
-
-            } else if (val == Point.VERTICAL_PIECE_TOP && twoSpaceVerticallyAdjacent()) {
-//                snapshot = new Snapshot(this);
-//                snapshot.space1.x += 1;
-//                snapshot.space2.x += 1;
-//                snapshot.maps.set(this.space1, val);
-//                snapshot.maps.set(this.space1.right(), 0);
-//                snapshot.maps.set(this.space1.down(), 5);
-//                snapshot.maps.set(this.space1.offset(+1, +1), 0);
-
-                snapshot = SnapshotFactory.getSnapshot(val, direction, this);
-                assert snapshot instanceof MoveVerPiece;
-                snapshot.movePiece(this.space1, val);
-            } else if (val == Point.VERTICAL_PIECE_BOTTOM && maps.get(this.space1.up()) == 0) {
-//                snapshot = new Snapshot(this);
-//                snapshot.space1.x += 1;
-//                snapshot.space2.x += 1;
-//                snapshot.maps.set(this.space1, val);
-//                snapshot.maps.set(this.space1.right(), 0);
-//                snapshot.maps.set(this.space1.up(), 4);
-//                snapshot.maps.set(this.space1.offset(+1, -1), 0);
-
-                snapshot = SnapshotFactory.getSnapshot(val, direction, this);
-                assert snapshot instanceof MoveVerPiece;
-                snapshot.movePiece(this.space1, val);
-            } else if (val == Point.D_PIECE_LEFT_TOP && twoSpaceVerticallyAdjacent()) {
-                snapshot = new Snapshot(this);
-                snapshot.space1.x += 2;
-                snapshot.space2.x += 2;
-                snapshot.maps.set(this.space1, val);
-                snapshot.maps.set(this.space1.down(), 8);
-                snapshot.maps.set(this.space1.right(), 7);
-                snapshot.maps.set(this.space1.offset(+1, +1), 9);
-                snapshot.maps.set(this.space1.offsetX(+2), 0);
-                snapshot.maps.set(this.space1.offset(+2, +1), 0);
-            } else if (val == Point.D_PIECE_LEFT_BOT && maps.get(this.space1.up()) == 0) {
-                snapshot = new Snapshot(this);
-                snapshot.space1.x += 2;
-                snapshot.space2.x += 2;
-                snapshot.maps.set(this.space1, 8);
-                snapshot.maps.set(this.space1.up(), 6);
-                snapshot.maps.set(this.space1.right(), 9);
-                snapshot.maps.set(this.space1.offset(+1, -1), 7);
-                snapshot.maps.set(this.space1.offsetX(+2), 0);
-                snapshot.maps.set(this.space1.offset(+2, -1), 0);
-            }
+            return getSnapshot(direction);
+        } else if (direction == Direction.RIGHT && this.space1.x < maps.getCols() - 1) {
+            return getSnapshot(direction);
         } else if (direction == Direction.UP && this.space1.y >= 1) {
-            val = maps.get(this.space1.getNeighbour(direction));
-            if (val == Point.SINGLE_PIECE) {
-                snapshot = SnapshotFactory.getSnapshot(val, direction, this);
-                assert snapshot instanceof MoveSingle;
-                snapshot.movePiece(this.space1, val);
-            } else if (val == Point.HOR_PIECE_LEFT && maps.get(this.space1.right()) == 0) {
-                snapshot = SnapshotFactory.getSnapshot(val, direction, this);
-                assert snapshot instanceof MoveHorPiece;
-                snapshot.movePiece(this.space1, val);
-            } else if (val == Point.HOR_PIECE_RIGHT && maps.get(this.space1.left()) == 0) {
-                snapshot = SnapshotFactory.getSnapshot(val, direction, this);
-                assert snapshot instanceof MoveHorPiece;
-                snapshot.movePiece(this.space1, val);
-            } else if (val == Point.VERTICAL_PIECE_BOTTOM) {
-                snapshot = new Snapshot(this);
-                snapshot.space1.y -= 2;
-                snapshot.maps.set(this.space1, val);
-                snapshot.maps.set(this.space1.up(), Point.VERTICAL_PIECE_TOP);
-                snapshot.maps.set(this.space1.offsetY(-2), Point.SPACE);
-
-//                snapshot = SnapshotFactory.getSnapshot(val, direction, this);
-//                assert snapshot instanceof MoveVerPiece;
-//                snapshot.movePiece(this.space1, val);
-            } else if (val == Point.D_PIECE_LEFT_BOT && maps.get(this.space1.right()) == 0) {
-                snapshot = new Snapshot(this);
-                snapshot.space1.y -= 2;
-                snapshot.space2.y -= 2;
-                snapshot.maps.set(this.space1, val);
-                snapshot.maps.set(this.space1.right(), 9);
-                snapshot.maps.set(this.space1.up(), 6);
-                snapshot.maps.set(this.space1.offset(1, -1), 7);
-                snapshot.maps.set(this.space1.offsetY(-2), 0);
-                snapshot.maps.set(this.space1.offset(1, -2), 0);
-            } else if (val == Point.D_PIECE_RIGHT_BOT && maps.get(this.space1.left()) == 0) {
-                snapshot = new Snapshot(this);
-                snapshot.space1.y -= 2;
-                snapshot.space2.y -= 2;
-                snapshot.maps.set(this.space1, val);
-                snapshot.maps.set(this.space1.left(), 8);
-                snapshot.maps.set(this.space1.up(), 7);
-                snapshot.maps.set(this.space1.offset(-1, -1), 6);
-                snapshot.maps.set(this.space1.offsetY(-2), 0);
-                snapshot.maps.set(this.space1.offset(-1, -2), 0);
-            }
-        } else if (direction == Direction.DOWN && this.space1.y < maps.rows - 1) {
-            val = maps.get(this.space1.getNeighbour(direction));
-            if (val == Point.SINGLE_PIECE) {
-                snapshot = SnapshotFactory.getSnapshot(val, direction, this);
-                assert snapshot instanceof MoveSingle;
-                snapshot.movePiece(this.space1, val);
-            } else if (val == Point.HOR_PIECE_LEFT && maps.get(this.space1.right()) == 0) {
-                snapshot = SnapshotFactory.getSnapshot(val, direction, this);
-                assert snapshot instanceof MoveHorPiece;
-                snapshot.movePiece(this.space1, val);
-
-            } else if (val == Point.HOR_PIECE_RIGHT && maps.get(this.space1.left()) == 0) {
-                snapshot = SnapshotFactory.getSnapshot(val, direction, this);
-                assert snapshot instanceof MoveHorPiece;
-                snapshot.movePiece(this.space1, val);
-            } else if (val == Point.VERTICAL_PIECE_TOP) {
-                snapshot = new Snapshot(this);
-                snapshot.space1.y += 2;
-                snapshot.maps.set(this.space1, val);
-                snapshot.maps.set(this.space1.down(), Point.VERTICAL_PIECE_BOTTOM);
-                snapshot.maps.set(this.space1.offsetY(+2), Point.SPACE);
-
-//                snapshot = SnapshotFactory.getSnapshot(val, direction, this);
-//                assert snapshot instanceof MoveVerPiece;
-//                snapshot.movePiece(this.space1, val);
-            } else if (val == Point.D_PIECE_LEFT_TOP && maps.get(this.space1.right()) == 0) {
-                snapshot = new Snapshot(this);
-                snapshot.space1.y += 2;
-                snapshot.space2.y += 2;
-                snapshot.maps.set(this.space1, val);
-                snapshot.maps.set(this.space1.right(), 7);
-                snapshot.maps.set(this.space1.down(), 8);
-                snapshot.maps.set(this.space1.offset(+1, +1), 9);
-                snapshot.maps.set(this.space1.offsetY(+2), 0);
-                snapshot.maps.set(this.space1.offset(+1, +2), 0);
-            } else if (val == Point.D_PIECE_RIGHT_TOP && maps.get(this.space1.left()) == 0) {
-                snapshot = new Snapshot(this);
-                snapshot.space1.y += 2;
-                snapshot.space2.y += 2;
-                snapshot.maps.set(this.space1, val);
-                snapshot.maps.set(this.space1.left(), 6);
-                snapshot.maps.set(this.space1.down(), 9);
-                snapshot.maps.set(this.space1.offset(-1, +1), 8);
-                snapshot.maps.set(this.space1.offsetY(+2), 0);
-                snapshot.maps.set(this.space1.offset(-1, +2), 0);
-            }
+            return getSnapshot(direction);
+        } else if (direction == Direction.DOWN && this.space1.y < maps.getRows() - 1) {
+            return getSnapshot(direction);
         }
+        return null;
+    }
 
+    private Snapshot getSnapshot(Direction direction) {
+        Snapshot snapshot;
+        int val = maps.get(this.space1.getNeighbour(direction));
+        snapshot = SnapshotFactory.getSnapshot(val, direction, this);
+        if (null != snapshot)
+            snapshot.movePiece(this.space1, val);
         return snapshot;
     }
 
-    public boolean twoSpaceVerticallyAdjacent() {
-        return maps.get(this.space1.down()) == Point.SPACE;
-    }
 
     protected Snapshot createSnapshot2(Point point, Direction direction) {
         int val;

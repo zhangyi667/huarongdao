@@ -26,6 +26,14 @@ public class Maps {
         return get(position.x, position.y);
     }
 
+    public int getCols() {
+        return this.cols;
+    }
+
+    public int getRows() {
+        return this.rows;
+    }
+
     public int get(int x, int y) {
         return maps[y * cols + x];
     }

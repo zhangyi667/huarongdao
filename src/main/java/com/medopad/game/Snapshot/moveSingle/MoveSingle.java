@@ -17,17 +17,6 @@ public abstract class MoveSingle extends Snapshot {
     }
 
     abstract void setSpaceButtons(Direction direction);
-//    {
-//        if (direction == Direction.LEFT) {
-//            this.space1.x -= OFFSET;
-//        } else if (direction == Direction.RIGHT) {
-//            this.space1.x += OFFSET;
-//        } else if (direction == Direction.UP) {
-//            this.space1.y -= OFFSET;
-//        } else if (direction == Direction.DOWN) {
-//            this.space1.y += OFFSET;
-//        }
-//    }
 
 
     public void movePiece(Point point, int val) {

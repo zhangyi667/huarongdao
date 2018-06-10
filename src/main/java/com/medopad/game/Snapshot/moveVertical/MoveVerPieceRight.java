@@ -11,8 +11,8 @@ public class MoveVerPieceRight extends MoveVerPiece {
     }
 
     void setSpaceButtons() {
-        this.space1.x += 1;
-        this.space2.x += 1;
+        this.space1.x += VER_LENGTH;
+        this.space2.x += VER_LENGTH;
     }
 
     public void movePiece(Point point, int val) {
