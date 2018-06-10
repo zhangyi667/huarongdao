@@ -1,5 +1,7 @@
 package com.medopad.game;
 
+import com.medopad.game.Snapshot.Snapshot;
+
 import java.util.*;
 
 public class Main {

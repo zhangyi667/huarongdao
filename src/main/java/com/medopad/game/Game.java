@@ -1,7 +1,10 @@
 package com.medopad.game;
 
+import com.medopad.game.Snapshot.Snapshot;
+
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 
@@ -31,7 +34,7 @@ public class Game {
     public Snapshot find() {
         Snapshot node;
         String key;
-        LinkedList<Snapshot> nexts;
+        List<Snapshot> nexts;
 
         root = new Snapshot(maps, rows, cols);
         queue = new LinkedList<>();
