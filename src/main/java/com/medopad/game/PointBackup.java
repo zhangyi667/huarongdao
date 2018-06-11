@@ -6,16 +6,20 @@ import java.util.*;
 
 public class PointBackup {
 
-    public static Set<String> LEGAL_CHARACTERS = new HashSet<>(Arrays.asList("A","B", "C","D", "E", "F", "G", "H", "I", "J", "Z", "X", " "));
-    public static final Set<String> SINGLE_PIECE_SET = new HashSet<>(Arrays.asList("C", "F", "G", "J"));
+    public static final String D_PIECE = "D";
+    public static final String SINGLE_PIECE = "C";
+    public static final String V_PIECE = "A";
     public static final String HOR_PIECE_LEFT = "E";
     public static final String HOR_PIECE_RIGHT = "L";
+
+    public static Set<String> LEGAL_CHARACTERS = new HashSet<>(Arrays.asList(V_PIECE,"B", SINGLE_PIECE,D_PIECE, HOR_PIECE_LEFT, "F", "G", "H", "I", "J", "Z", "X", " "));
+    public static final Set<String> SINGLE_PIECE_SET = new HashSet<>(Arrays.asList(SINGLE_PIECE, "F", "G", "J"));
     public static final Map<String, String> VERTICAL_PIECE = createMap();
     public static final Map<String, String> VERTICAL_BOTTOM_TO_TOP = createVerticalBottomToTopMap();
 
     private static Map<String, String> createVerticalBottomToTopMap() {
         Map<String,String> myMap = new HashMap<>();
-        myMap.put("O", "A");
+        myMap.put("O", V_PIECE);
         myMap.put("K", "H");
         myMap.put("M", "B");
         myMap.put("N", "I");
@@ -24,7 +28,7 @@ public class PointBackup {
 
     private static Map<String, String> createMap() {
         Map<String,String> myMap = new HashMap<>();
-        myMap.put("A", "O");
+        myMap.put(V_PIECE, "O");
         myMap.put("H", "K");
         myMap.put("B", "M");
         myMap.put("I", "N");
@@ -34,7 +38,6 @@ public class PointBackup {
     public static final String D_PIECE_RIGHT_TOP = "7";
     public static final String D_PIECE_LEFT_BOT = "8";
     public static final String D_PIECE_RIGHT_BOT = "9";
-    public static final String D_PIECE = "D";
 
 
     public static final String EXIT_CHARACTER = "Z";

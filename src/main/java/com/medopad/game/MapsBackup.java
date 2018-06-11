@@ -68,7 +68,11 @@ public class MapsBackup {
         StringBuilder sb = new StringBuilder();
         for (String[] row : maps) {
             for (String s : row) {
-                sb.append(s);
+                if (PointBackup.isSinglePiece(s)) sb.append(PointBackup.SINGLE_PIECE);
+                else if (PointBackup.belongsToVerticalPiece(s)) sb.append(PointBackup.V_PIECE);
+                else if (PointBackup.belongsToHorizonPiece(s)) sb.append(PointBackup.HOR_PIECE_LEFT);
+                else if (PointBackup.belongsToDPiece(s)) sb.append(PointBackup.D_PIECE);
+                else sb.append(s);
             }
         }
         return sb.toString();
@@ -85,7 +89,7 @@ public class MapsBackup {
 
     private String printHelper(String s) {
         if (s.equals("O"))
-            return "A";
+            return PointBackup.V_PIECE;
         if (s.equals("M"))
                     return "B";
         if (s.equals("N"))
@@ -93,7 +97,7 @@ public class MapsBackup {
         if (s.equals("K"))
                     return "H";
         if (s.equals("L"))
-                    return "E";
+                    return PointBackup.HOR_PIECE_LEFT;
         if (PointBackup.belongsToDPiece(s))
             return PointBackup.D_PIECE;
         return s;
