@@ -1,31 +1,33 @@
-# loanCalculater
+# puzzle
 # This directory contains:
-* README.md
-* quote.exe file
-* quote.jar file which is same as quote.exe(just in case .exe file doesn't work), use command ```java -jar [market_file] [loan_amount] ``` to run
-* a zip file which is the whole maven project. You can also clone it   ```git clone https://github.com/zhangyi667/loanCalculater.git```
-* You can always run ```mvn package``` to build a jar file which is ready to use.
+* A README.md file
+* A zip file contains the whole maven project.
 
 ## Brief description of the project
 * A simple maven project, compiled and run in Java 8
-* Source files are in src/main/java. It consists of 3 modules, the Calculater, the FileParser and Util. 
+* Source files are in src/main/java. 
 * Test files are in src/test/java. Using JUnit as test framework.
+* Main class is in com.medopad.game.Main. It takes a String[][] as input, which is already initialized. 
 
 ## My understanding of the project
-Basically the system works like this: Some people lend their money to Zopa, and Zopa lends these money out. The profit comes from the interest differences. 
-First, we have a csv file which contains all the money and interests from lenders, from which we can calculate how much money we have in the pool, and how much the interests are(In 3 years). Let's say the interests in total are N.
-Then, when somebody wants a quote from us, the lowest rate comes when the total repayment of him/her is equal to N(And in this case our profit is exactly 0). This is how it works.
-As we know the requested amount and period to pay of a person, we know the total repayment, and thus comes how to calculate annual rate. What I do is to use binary search to guess the rate using PMT formula. I also found that in Excel it has a RATE formula, which I used to generate test data. In my project file src/main/resources/rate data for test.xlsx I randomly generated some data that I can do assertion in the tests.
+* The best way to do this is to use BFS to try to get all the possible moves, and save all intermediate status.
+Once reached the end of the game(in this case the D block moved to exit), travel all back to the start status and we can show all the moves.
 
-## Assumptions
-* compile and run in Java 8.
-* Currency comes in pound as sterling.
-* When calculating the rate, assume the max rate is 100%.
-* Had the input is invalid, as null params, wrong path of file, file data invalid, etc. The programe would throw exception.
+* To make it work, use class Snapshot to save the status of one move. For every snapshot, it has a list to save all the possible next moves as "children", and a pointer to its previous status as "parent".
+Once reached the end status, travel back by calling parent, and use a stack to save them thus we can have all start-to-end moves in order.
 
-## TODO
-Because of the time limit and assumptions I made, there are a few known improvements.
-* It only accepts .csv file. Any file without format or with wrong format would throw Exception.
-* The data in csv file have to be valid. Or it would throw NumberFormatException.
-* No i18n or localizations. 
-* No logs.
+* Not all the intermediate status are worth saving. Only when we have NOT reached this status before.
+* For an intermediate status(or a "snapshot"), generate its hashKey to judge if this status ever occured. Use a Set to save all the hashKey and judge if we've seen a status.
+* And for the vertical blocks("AA"/"BB"/"HH"/"II") and single block("C F G J"), since they are symmetrical we can improve the algorithm by regarding them as same.    
+   
+## Assumptions I've made
+* Input is String[][]
+* For invalid params, throw Exception.
+* Assume the initial puzzle contains all kinds of pieces.
+
+
+## Had I got more time, I would...
+* Consider using an int[][] to represent the intermediate status. At the moment I'm using a String[][], which is a little bit slow when doing clone() or generating hashKey. 
+* Complete tests. Insufficient unit tests for all abstract classes.
+* Refactor code. The logic is mess when generating intermediate status. I used Snapshot.createSnapshot1() and Snapshot.createSnapshot2() to generate all possible next moves, which is quite confusing because in the beginning there's no createSnapshot2().
+I found this part of logic missing after writing most of the code so I had to add it as it is.  

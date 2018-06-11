@@ -7,7 +7,6 @@ import java.util.*;
 
 public class Main {
     public static void main(String args[]) {
-        long current = System.currentTimeMillis();
         String[][] maps = new String[][] {
                 new String[] {"X", "X", "X", "X", "X", "X"},
                 new String[] {"X", "A", "D", "D", "H", "X"},
@@ -18,12 +17,21 @@ public class Main {
                 new String[] {"X", "X", "Z", "Z", "X", "X"}
         };
         traverseAndPrint(maps);
-        System.out.println("In total " + (System.currentTimeMillis() - current) + " milli seconds");
     }
 
     private static void traverseAndPrint(String[][] maps) {
         Stack<Snapshot> stack = getSnapshots(PuzzleParser.parse(maps));
         printAllMoves(stack);
+    }
+
+    private static Stack<Snapshot> getSnapshots(String[][] maps) {
+        Snapshot snapshot = new Game(maps).find();
+        Stack<Snapshot> stack = new Stack<>();
+        while (snapshot != null) {
+            stack.add(snapshot);
+            snapshot = snapshot.getParent();
+        }
+        return stack;
     }
 
     private static void printAllMoves(Stack<Snapshot> stack) {
@@ -39,15 +47,5 @@ public class Main {
             steps++;
         }
         System.out.println("total step: "+steps);
-    }
-
-    private static Stack<Snapshot> getSnapshots(String[][] maps) {
-        Snapshot snapshot = new Game(maps).find();
-        Stack<Snapshot> stack = new Stack<>();
-        while (snapshot != null) {
-            stack.add(snapshot);
-            snapshot = snapshot.getParent();
-        }
-        return stack;
     }
 }
