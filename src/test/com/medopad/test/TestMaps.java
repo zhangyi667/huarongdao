@@ -1,6 +1,6 @@
 package com.medopad.test;
 
-import com.medopad.game.MapsBackup;
+import com.medopad.game.Maps;
 import org.junit.Test;
 
 public class TestMaps {
@@ -28,7 +28,7 @@ public class TestMaps {
 
     @Test
     public void testPrintHelper() {
-        MapsBackup maps = new MapsBackup(expectedOutput);
+        Maps maps = new Maps(expectedOutput);
         maps.print();
     }
 

@@ -4,7 +4,7 @@ import com.medopad.game.Snapshot.Direction;
 
 import java.util.*;
 
-public class PointBackup {
+public class Point {
 
     public static final String D_PIECE = "D";
     public static final String SINGLE_PIECE = "C";
@@ -48,17 +48,17 @@ public class PointBackup {
     public int x;
     public int y;
 
-    public PointBackup(int x, int y) {
+    public Point(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    public PointBackup(PointBackup other) {
+    public Point(Point other) {
         this.x = other.x;
         this.y = other.y;
     }
 
-    public PointBackup getNeighbour(Direction d) {
+    public Point getNeighbour(Direction d) {
         switch (d) {
             case LEFT: return left();
             case UP:return up();
@@ -68,29 +68,29 @@ public class PointBackup {
         }
     }
 
-    public PointBackup left() {
-        return new PointBackup(x - 1, y);
+    public Point left() {
+        return new Point(x - 1, y);
     }
-    public PointBackup right() {
-        return new PointBackup(x + 1, y);
+    public Point right() {
+        return new Point(x + 1, y);
     }
-    public PointBackup up() {
-        return new PointBackup(x, y - 1);
+    public Point up() {
+        return new Point(x, y - 1);
     }
-    public PointBackup down() {
-        return new PointBackup(x, y + 1);
-    }
-
-    public PointBackup offsetX(int step) {
-        return new PointBackup(x + step, y);
-    }
-    public PointBackup offsetY(int step) {
-        return new PointBackup(x, y + step);
+    public Point down() {
+        return new Point(x, y + 1);
     }
 
-    public PointBackup offset(int stepX, int stepY)
+    public Point offsetX(int step) {
+        return new Point(x + step, y);
+    }
+    public Point offsetY(int step) {
+        return new Point(x, y + step);
+    }
+
+    public Point offset(int stepX, int stepY)
     {
-        return new PointBackup(x + stepX, y + stepY);
+        return new Point(x + stepX, y + stepY);
     }
 
 

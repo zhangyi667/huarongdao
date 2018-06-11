@@ -1,6 +1,6 @@
 package com.medopad.game.Snapshot.moveVertical;
 
-import com.medopad.game.PointBackup;
+import com.medopad.game.Point;
 import com.medopad.game.Snapshot.Direction;
 import com.medopad.game.Snapshot.Snapshot;
 
@@ -12,13 +12,13 @@ public class MoveVerPieceDown extends MoveVerPiece {
     }
 
     void setSpaceButtons() {
-        assert PointBackup.belongsToVerticalPieceTop(val);
+        assert Point.belongsToVerticalPieceTop(val);
         space1.y += VER_HEIGHT;
     }
 
-    public void movePiece(PointBackup point, String val) {
+    public void movePiece(Point point, String val) {
         this.maps.set(point, val);
-        this.maps.set(point.getNeighbour(direction), PointBackup.getBottomPieceFromTop(val));
-        this.maps.set(point.offsetY(+2), PointBackup.SPACE);
+        this.maps.set(point.getNeighbour(direction), Point.getBottomPieceFromTop(val));
+        this.maps.set(point.offsetY(+2), Point.SPACE);
     }
 }

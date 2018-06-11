@@ -1,32 +1,32 @@
 package com.medopad.game;
 
-public class MapsBackup {
+public class Maps {
     protected String[][] maps;
     private int cols;
     private int rows;
 
     public static final int EXIT_SIZE = 2;
 
-    public MapsBackup(String[][] maps) {
+    public Maps(String[][] maps) {
         this.maps = maps;
         this.rows = maps.length;
         this.cols = maps[0].length;
     }
 
-    public MapsBackup(MapsBackup other) {
+    public Maps(Maps other) {
         this.maps = cloneMaps(other);
         this.rows = other.rows;
         this.cols = other.cols;
     }
 
-    private String[][] cloneMaps(MapsBackup other) {
+    private String[][] cloneMaps(Maps other) {
         String[][] res = new String[other.rows][other.cols];
         for (int i = 0; i < other.rows; i++) {
             res[i] = other.maps[i].clone();
         }
         return res;
     }
-    public String get(PointBackup position) {
+    public String get(Point position) {
         return get(position.x, position.y);
     }
 
@@ -42,7 +42,7 @@ public class MapsBackup {
         return maps[y][x];
     }
 
-    public void set(PointBackup position, String val) {
+    public void set(Point position, String val) {
         set(position.x, position.y, val);
     }
 
@@ -50,13 +50,13 @@ public class MapsBackup {
         maps[y][x] = val;
     }
 
-    public PointBackup[] space() {
-        PointBackup[] points = new PointBackup[EXIT_SIZE];
+    public Point[] space() {
+        Point[] points = new Point[EXIT_SIZE];
         int index = 0;
         for (int i = 0; i < getRows(); i++) {
             for (int j = 0; j < getCols(); j++) {
-                if (get(j, i).equals(PointBackup.SPACE)) {
-                    points[index] = new PointBackup(j, i);
+                if (get(j, i).equals(Point.SPACE)) {
+                    points[index] = new Point(j, i);
                     index++;
                 }
             }
@@ -68,10 +68,10 @@ public class MapsBackup {
         StringBuilder sb = new StringBuilder();
         for (String[] row : maps) {
             for (String s : row) {
-                if (PointBackup.isSinglePiece(s)) sb.append(PointBackup.SINGLE_PIECE);
-                else if (PointBackup.belongsToVerticalPiece(s)) sb.append(PointBackup.V_PIECE);
-                else if (PointBackup.belongsToHorizonPiece(s)) sb.append(PointBackup.HOR_PIECE_LEFT);
-                else if (PointBackup.belongsToDPiece(s)) sb.append(PointBackup.D_PIECE);
+                if (Point.isSinglePiece(s)) sb.append(Point.SINGLE_PIECE);
+                else if (Point.belongsToVerticalPiece(s)) sb.append(Point.V_PIECE);
+                else if (Point.belongsToHorizonPiece(s)) sb.append(Point.HOR_PIECE_LEFT);
+                else if (Point.belongsToDPiece(s)) sb.append(Point.D_PIECE);
                 else sb.append(s);
             }
         }
@@ -89,7 +89,7 @@ public class MapsBackup {
 
     private String printHelper(String s) {
         if (s.equals("O"))
-            return PointBackup.V_PIECE;
+            return Point.V_PIECE;
         if (s.equals("M"))
                     return "B";
         if (s.equals("N"))
@@ -97,9 +97,9 @@ public class MapsBackup {
         if (s.equals("K"))
                     return "H";
         if (s.equals("L"))
-                    return PointBackup.HOR_PIECE_LEFT;
-        if (PointBackup.belongsToDPiece(s))
-            return PointBackup.D_PIECE;
+                    return Point.HOR_PIECE_LEFT;
+        if (Point.belongsToDPiece(s))
+            return Point.D_PIECE;
         return s;
     }
 }

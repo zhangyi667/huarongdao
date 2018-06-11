@@ -1,6 +1,6 @@
 package com.medopad.game.Snapshot.moveD;
 
-import com.medopad.game.PointBackup;
+import com.medopad.game.Point;
 import com.medopad.game.Snapshot.Direction;
 import com.medopad.game.Snapshot.Snapshot;
 
@@ -15,12 +15,12 @@ public class MoveDPieceLeft extends MoveDPiece {
         this.space2.x -= D_LENGTH;
     }
 
-    public void movePiece(PointBackup point, String val) {
+    public void movePiece(Point point, String val) {
         this.maps.set(point, val);
-        this.maps.set(point.down(), PointBackup.D_PIECE_RIGHT_BOT);
-        this.maps.set(point.left(), PointBackup.D_PIECE_LEFT_TOP);
-        this.maps.set(point.offset(-1, 1), PointBackup.D_PIECE_LEFT_BOT);
-        this.maps.set(point.offsetX(-2), PointBackup.SPACE);
-        this.maps.set(point.offset(-2, 1), PointBackup.SPACE);
+        this.maps.set(point.down(), Point.D_PIECE_RIGHT_BOT);
+        this.maps.set(point.left(), Point.D_PIECE_LEFT_TOP);
+        this.maps.set(point.offset(-1, 1), Point.D_PIECE_LEFT_BOT);
+        this.maps.set(point.offsetX(-2), Point.SPACE);
+        this.maps.set(point.offset(-2, 1), Point.SPACE);
     }
 }

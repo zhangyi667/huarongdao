@@ -1,7 +1,7 @@
 package com.medopad.Util;
 
-import com.medopad.game.MapsBackup;
-import com.medopad.game.PointBackup;
+import com.medopad.game.Maps;
+import com.medopad.game.Point;
 
 public class PuzzleParser {
 
@@ -21,10 +21,10 @@ public class PuzzleParser {
             for (int j = 0; j < col; j++) {
                 if (visited[i][j]) continue;
                 String piece = newRow[j];
-                if (!PointBackup.LEGAL_CHARACTERS.contains(piece)) {
+                if (!Point.LEGAL_CHARACTERS.contains(piece)) {
                     throw new IllegalArgumentException(String.format("%s is not a valid input", piece));
                 }
-                if (PointBackup.BORDER.equals(piece) || PointBackup.SPACE.equals(piece) || PointBackup.EXIT_CHARACTER.equals(piece)) {
+                if (Point.BORDER.equals(piece) || Point.SPACE.equals(piece) || Point.EXIT_CHARACTER.equals(piece)) {
                     res[i][j] = piece;
                     visited[i][j] = true;
                     continue;
@@ -53,14 +53,14 @@ public class PuzzleParser {
     }
 
     private static boolean borderInvalid(String[] newRow, int col) {
-        return !newRow[0].equals(PointBackup.BORDER) || !newRow[col - 1].equals(PointBackup.BORDER);
+        return !newRow[0].equals(Point.BORDER) || !newRow[col - 1].equals(Point.BORDER);
     }
 
     private static void parseDPiece(String[][] input, String[][] res, int i, int j, boolean[][] visited) {
-        res[i][j] = PointBackup.D_PIECE_LEFT_TOP;
-        res[i][j + 1] = PointBackup.D_PIECE_RIGHT_TOP;
-        res[i + 1][j] = PointBackup.D_PIECE_LEFT_BOT;
-        res[i + 1][j + 1] = PointBackup.D_PIECE_RIGHT_BOT;
+        res[i][j] = Point.D_PIECE_LEFT_TOP;
+        res[i][j + 1] = Point.D_PIECE_RIGHT_TOP;
+        res[i + 1][j] = Point.D_PIECE_LEFT_BOT;
+        res[i + 1][j + 1] = Point.D_PIECE_RIGHT_BOT;
         visited[i][j] = true;
         visited[i][j + 1] = true;
         visited[i + 1][j] = true;
@@ -69,14 +69,14 @@ public class PuzzleParser {
 
     private static void parseHorPiece(String[][] input, String[][] res, int i, int j, boolean[][] visited) {
         res[i][j] = input[i][j];
-        res[i][j + 1] = PointBackup.HOR_PIECE_RIGHT;
+        res[i][j + 1] = Point.HOR_PIECE_RIGHT;
         visited[i][j] = true;
         visited[i][j + 1] = true;
     }
 
     private static void parseVerticalPiece(String[][] input, String[][] res, int i, int j, boolean[][] visited) {
         res[i][j] = input[i][j];
-        res[i + 1][j] = PointBackup.getBottomPieceFromTop(input[i][j]);
+        res[i + 1][j] = Point.getBottomPieceFromTop(input[i][j]);
         visited[i][j] = true;
         visited[i + 1][j] = true;
     }
@@ -100,15 +100,15 @@ public class PuzzleParser {
     }
 
     private static boolean isDPiece(String piece) {
-        return PointBackup.D_PIECE.equals(piece);
+        return Point.D_PIECE.equals(piece);
     }
 
     private static boolean isVerticalPiece(String piece) {
-        return PointBackup.belongsToVerticalPieceTop(piece);
+        return Point.belongsToVerticalPieceTop(piece);
     }
 
     private static boolean isHorizonPiece(String piece) {
-        return PointBackup.HOR_PIECE_LEFT.equals(piece);
+        return Point.HOR_PIECE_LEFT.equals(piece);
     }
 
     private static void parseSinglePiece(String[][] input, String[][] res, int i, int j, boolean[][] visited) {
@@ -116,17 +116,17 @@ public class PuzzleParser {
         visited[i][j] = true;
     }
 
-    public static PointBackup[] findExit(String[][] res) {
-        PointBackup[] arr = new PointBackup[MapsBackup.EXIT_SIZE];
+    public static Point[] findExit(String[][] res) {
+        Point[] arr = new Point[Maps.EXIT_SIZE];
         int index = 0;
         for (int i = 0; i < res.length; i++) {
             for (int j = 0; j < res[0].length; j++) {
-                if (index == MapsBackup.EXIT_SIZE)
+                if (index == Maps.EXIT_SIZE)
                     break;
-                if (!PointBackup.EXIT_CHARACTER.equals(res[i][j])) continue;
+                if (!Point.EXIT_CHARACTER.equals(res[i][j])) continue;
                 if (i < 1)
                     throw new IllegalArgumentException();
-                arr[index++] = new PointBackup(j, i - 1);
+                arr[index++] = new Point(j, i - 1);
             }
         }
         return arr;
