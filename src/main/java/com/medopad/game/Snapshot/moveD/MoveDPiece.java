@@ -1,6 +1,6 @@
 package com.medopad.game.Snapshot.moveD;
 
-import com.medopad.game.PointConstant;
+import com.medopad.game.Point;
 import com.medopad.game.Snapshot.Direction;
 import com.medopad.game.Snapshot.Snapshot;
 
@@ -23,7 +23,7 @@ public abstract class MoveDPiece extends Snapshot {
     abstract void setSpaceButtons();
 
 
-    public abstract void movePiece(PointConstant.Point point, String val);
+    public abstract void movePiece(Point point, String val);
 
 
 }

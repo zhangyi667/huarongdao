@@ -26,7 +26,7 @@ public class Maps {
         }
         return res;
     }
-    public String get(PointConstant.Point position) {
+    public String get(Point position) {
         return get(position.x, position.y);
     }
 
@@ -42,7 +42,7 @@ public class Maps {
         return maps[y][x];
     }
 
-    public void set(PointConstant.Point position, String val) {
+    public void set(Point position, String val) {
         set(position.x, position.y, val);
     }
 
@@ -50,13 +50,13 @@ public class Maps {
         maps[y][x] = val;
     }
 
-    public PointConstant.Point[] space() {
-        PointConstant.Point[] points = new PointConstant.Point[EXIT_SIZE];
+    public Point[] space() {
+        Point[] points = new Point[EXIT_SIZE];
         int index = 0;
         for (int i = 0; i < getRows(); i++) {
             for (int j = 0; j < getCols(); j++) {
-                if (get(j, i).equals(PointConstant.Point.SPACE)) {
-                    points[index] = new PointConstant.Point(j, i);
+                if (get(j, i).equals(PointConstant.SPACE)) {
+                    points[index] = new Point(j, i);
                     index++;
                 }
             }
@@ -68,10 +68,10 @@ public class Maps {
         StringBuilder sb = new StringBuilder();
         for (String[] row : maps) {
             for (String s : row) {
-                if (PointConstant.Point.isSinglePiece(s)) sb.append(PointConstant.Point.SINGLE_PIECE);
-                else if (PointConstant.Point.belongsToVerticalPiece(s)) sb.append(PointConstant.Point.V_PIECE);
-                else if (PointConstant.Point.belongsToHorizonPiece(s)) sb.append(PointConstant.Point.HOR_PIECE_LEFT);
-                else if (PointConstant.Point.belongsToDPiece(s)) sb.append(PointConstant.Point.D_PIECE);
+                if (Point.isSinglePiece(s)) sb.append(PointConstant.SINGLE_PIECE);
+                else if (Point.belongsToVerticalPiece(s)) sb.append(PointConstant.V_PIECE);
+                else if (Point.belongsToHorizonPiece(s)) sb.append(PointConstant.HOR_PIECE_LEFT);
+                else if (Point.belongsToDPiece(s)) sb.append(PointConstant.D_PIECE);
                 else sb.append(s);
             }
         }
@@ -88,18 +88,18 @@ public class Maps {
     }
 
     private String printHelper(String s) {
-        if (s.equals(PointConstant.Point.V_PIECE_AVATAR_1))
-            return PointConstant.Point.V_PIECE;
-        if (s.equals(PointConstant.Point.V_PIECE_AVATAR_3))
-                    return PointConstant.Point.V_PIECE_2;
-        if (s.equals(PointConstant.Point.V_PIECE_AVATAR_4))
-                    return PointConstant.Point.V_PIECE_3;
-        if (s.equals(PointConstant.Point.V_PIECE_AVATAR_2))
-                    return PointConstant.Point.V_PIECE_4;
-        if (s.equals(PointConstant.Point.HOR_PIECE_RIGHT))
-                    return PointConstant.Point.HOR_PIECE_LEFT;
-        if (PointConstant.Point.belongsToDPiece(s))
-            return PointConstant.Point.D_PIECE;
+        if (s.equals(PointConstant.V_PIECE_AVATAR_1))
+            return PointConstant.V_PIECE;
+        if (s.equals(PointConstant.V_PIECE_AVATAR_3))
+                    return PointConstant.V_PIECE_2;
+        if (s.equals(PointConstant.V_PIECE_AVATAR_4))
+                    return PointConstant.V_PIECE_3;
+        if (s.equals(PointConstant.V_PIECE_AVATAR_2))
+                    return PointConstant.V_PIECE_4;
+        if (s.equals(PointConstant.HOR_PIECE_RIGHT))
+                    return PointConstant.HOR_PIECE_LEFT;
+        if (Point.belongsToDPiece(s))
+            return PointConstant.D_PIECE;
         return s;
     }
 }

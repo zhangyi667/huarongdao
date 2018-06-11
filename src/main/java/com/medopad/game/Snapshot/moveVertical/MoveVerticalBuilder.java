@@ -1,5 +1,6 @@
 package com.medopad.game.Snapshot.moveVertical;
 
+import com.medopad.game.Point;
 import com.medopad.game.PointConstant;
 import com.medopad.game.Snapshot.Direction;
 import com.medopad.game.Snapshot.Snapshot;
@@ -20,13 +21,13 @@ public class MoveVerticalBuilder {
                 return null;
             }
             case UP: {
-                if (PointConstant.Point.belongsToVerticalPieceBottom(val)) {
+                if (Point.belongsToVerticalPieceBottom(val)) {
                     return new MoveVerPieceUp(snapshot, direction, val);
                 }
                 return null;
             }
             case DOWN:
-                if (PointConstant.Point.belongsToVerticalPieceTop(val)) {
+                if (Point.belongsToVerticalPieceTop(val)) {
                     return new MoveVerPieceDown(snapshot, direction, val);
                 }
                 return null;
@@ -45,8 +46,8 @@ public class MoveVerticalBuilder {
     }
 
     private static boolean hasEnoughSpace(String val, Snapshot snapshot) {
-        return (PointConstant.Point.belongsToVerticalPieceTop(val) && snapshot.getMaps().get(snapshot.getSpace1().down()).equals(PointConstant.Point.SPACE)) ||
-                (PointConstant.Point.belongsToVerticalPieceBottom(val) && snapshot.getMaps().get(snapshot.getSpace1().up()).equals(PointConstant.Point.SPACE));
+        return (Point.belongsToVerticalPieceTop(val) && snapshot.getMaps().get(snapshot.getSpace1().down()).equals(PointConstant.SPACE)) ||
+                (Point.belongsToVerticalPieceBottom(val) && snapshot.getMaps().get(snapshot.getSpace1().up()).equals(PointConstant.SPACE));
     }
 
 }

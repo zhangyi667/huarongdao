@@ -4,7 +4,7 @@ import com.medopad.game.Maps;
 import org.junit.Test;
 
 public class TestMaps {
-    private String[][] expectedOutput = new String[][] {
+    private String[][] maps = new String[][] {
             new String[] {"X", "X", "X", "X", "X", "X"},
             new String[] {"X", "A", "6", "7", "H", "X"},
             new String[] {"X", "O", "8", "9", "K", "X"},
@@ -17,7 +17,7 @@ public class TestMaps {
 
     @Test
     public void testPrintHelper() {
-        Maps maps = new Maps(expectedOutput);
+        Maps maps = new Maps(this.maps);
         maps.print();
     }
 
