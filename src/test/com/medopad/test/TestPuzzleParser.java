@@ -2,7 +2,7 @@ package com.medopad.test;
 
 import com.medopad.Util.PuzzleParser;
 import com.medopad.game.MapsBackup;
-import com.medopad.game.Point;
+import com.medopad.game.PointBackup;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -76,10 +76,10 @@ public class TestPuzzleParser {
     @Test
     public void testFindExit() {
         String[][] res = PuzzleParser.parse(validInput);
-        Point[] arr = PuzzleParser.findExit(res);
+        PointBackup[] arr = PuzzleParser.findExit(res);
         assert arr.length == MapsBackup.EXIT_SIZE;
-        assert arr[0].x == 6 && arr[0].y == 2;
-        assert arr[1].x == 6 && arr[1].y == 3;
+        assert arr[0].y == 5 && arr[0].x == 2;
+        assert arr[1].y == 5 && arr[1].x == 3;
     }
 
 

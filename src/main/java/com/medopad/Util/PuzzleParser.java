@@ -1,7 +1,6 @@
 package com.medopad.Util;
 
 import com.medopad.game.MapsBackup;
-import com.medopad.game.Point;
 import com.medopad.game.PointBackup;
 
 public class PuzzleParser {
@@ -77,7 +76,7 @@ public class PuzzleParser {
 
     private static void parseVerticalPiece(String[][] input, String[][] res, int i, int j, boolean[][] visited) {
         res[i][j] = input[i][j];
-        res[i + 1][j] = PointBackup.VERTICAL_PIECE.get(input[i][j]);
+        res[i + 1][j] = PointBackup.getBottomPieceFromTop(input[i][j]);
         visited[i][j] = true;
         visited[i + 1][j] = true;
     }
@@ -117,15 +116,17 @@ public class PuzzleParser {
         visited[i][j] = true;
     }
 
-    public static Point[] findExit(String[][] res) {
-        Point[] arr = new Point[MapsBackup.EXIT_SIZE];
+    public static PointBackup[] findExit(String[][] res) {
+        PointBackup[] arr = new PointBackup[MapsBackup.EXIT_SIZE];
         int index = 0;
         for (int i = 0; i < res.length; i++) {
             for (int j = 0; j < res[0].length; j++) {
                 if (index == MapsBackup.EXIT_SIZE)
                     break;
                 if (!PointBackup.EXIT_CHARACTER.equals(res[i][j])) continue;
-                arr[index++] = new Point(i, j);
+                if (i < 1)
+                    throw new IllegalArgumentException();
+                arr[index++] = new PointBackup(j, i - 1);
             }
         }
         return arr;

@@ -10,42 +10,32 @@ import java.util.Queue;
 
 
 public class Game {
-    protected int maps[];
-    protected String[][] mapsBackup;
-    protected int rows;
-    protected int cols;
+    private String[][] mapsBackup;
+    private int rows;
+    private int cols;
 
-    protected Snapshot root;
-    Queue<Snapshot> queue;
+    private Snapshot root;
+    private Queue<Snapshot> queue;
 
-    HashSet<String> collections = new HashSet<>();
+    private HashSet<String> collections = new HashSet<>();
 
-    protected Point endPosition1;
-    protected Point endPosition2;
+    private PointBackup endPositionLeft;
+    private PointBackup endPositionRight;
 
-    public Game(int maps[], int rows, int cols, Point endPosition1, Point endPosition2) {
-        this.maps = maps;
-        this.rows = rows;
-        this.cols = cols;
-
-        this.endPosition1 = endPosition1;
-        this.endPosition2 = endPosition2;
-
-    }
-    public Game(String[][] maps) {
+    Game(String[][] maps) {
         this.mapsBackup = maps;
         this.rows = maps.length;
         this.cols = maps[0].length;
-        Point[] arr = PuzzleParser.findExit(maps);
-        this.endPosition1 = arr[0];
-        this.endPosition2 = arr[1];
+        PointBackup[] arr = PuzzleParser.findExit(maps);
+        this.endPositionLeft = arr[0];
+        this.endPositionRight = arr[1];
     }
 
-    public Snapshot find() {
+    Snapshot find() {
         Snapshot node;
         String key;
-        List<Snapshot> nextMoves;
-        root = new Snapshot(maps, rows, cols);
+        List<Snapshot> allNextMoves;
+        root = new Snapshot(mapsBackup);
         queue = new LinkedList<>();
         queue.add(root);
         key = root.getHashKey();
@@ -53,25 +43,20 @@ public class Game {
         while (!queue.isEmpty()) {
             node = queue.poll();
             if(null == node) continue;
-            nextMoves = node.listAllPossibleNextMove();
-            for (Snapshot next : nextMoves) {
+            allNextMoves = node.listAllPossibleNextMove();
+            for (Snapshot next : allNextMoves) {
                 key = next.getHashKey();
                 if (collections.contains(key)) {
                     continue;
                 }
                 collections.add(key);
-
                 node.add(next);
                 queue.offer(next);
-
-                if (next.isEnd(endPosition1, endPosition2)) {
+                if (next.isEnd(endPositionLeft, endPositionRight)) {
                     return next;
                 }
             }
-
         }
-
-
         return null;
     }
 }

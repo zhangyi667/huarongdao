@@ -11,8 +11,18 @@ public class PointBackup {
     public static final String HOR_PIECE_LEFT = "E";
     public static final String HOR_PIECE_RIGHT = "L";
     public static final Map<String, String> VERTICAL_PIECE = createMap();
-    private static Map<String, String> createMap()
-    {
+    public static final Map<String, String> VERTICAL_BOTTOM_TO_TOP = createVerticalBottomToTopMap();
+
+    private static Map<String, String> createVerticalBottomToTopMap() {
+        Map<String,String> myMap = new HashMap<>();
+        myMap.put("O", "A");
+        myMap.put("K", "H");
+        myMap.put("M", "B");
+        myMap.put("N", "I");
+        return myMap;
+    }
+
+    private static Map<String, String> createMap() {
         Map<String,String> myMap = new HashMap<>();
         myMap.put("A", "O");
         myMap.put("H", "K");
@@ -85,7 +95,7 @@ public class PointBackup {
         return SINGLE_PIECE_SET.contains(s);
     }
 
-    public static boolean belongsToVertivalPiece(String s) {
+    public static boolean belongsToVerticalPiece(String s) {
         return  belongsToVerticalPieceTop(s) || belongsToVerticalPieceBottom(s);
     }
 
@@ -102,5 +112,12 @@ public class PointBackup {
 
     public static boolean belongsToDPiece(String s) {
         return s.equals(D_PIECE_LEFT_TOP) || s.equals(D_PIECE_RIGHT_TOP) || s.equals(D_PIECE_LEFT_BOT) || s.equals(D_PIECE_RIGHT_BOT);
+    }
+
+    public static String getBottomPieceFromTop(String piece) {
+        return VERTICAL_PIECE.get(piece);
+    }
+    public static String getTopPieceFromBottom(String piece) {
+        return VERTICAL_BOTTOM_TO_TOP.get(piece);
     }
 }

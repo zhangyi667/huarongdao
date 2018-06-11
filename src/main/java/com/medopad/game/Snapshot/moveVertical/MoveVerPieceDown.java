@@ -1,24 +1,24 @@
 package com.medopad.game.Snapshot.moveVertical;
 
-import com.medopad.game.Point;
+import com.medopad.game.PointBackup;
 import com.medopad.game.Snapshot.Direction;
 import com.medopad.game.Snapshot.Snapshot;
 
 public class MoveVerPieceDown extends MoveVerPiece {
 
 
-    public MoveVerPieceDown(Snapshot from, Direction direction, int val) {
+    public MoveVerPieceDown(Snapshot from, Direction direction, String val) {
         super(from, direction, val);
     }
 
     void setSpaceButtons() {
-        assert val == Point.VERTICAL_PIECE_TOP;
+        assert PointBackup.belongsToVerticalPieceTop(val);
         space1.y += VER_HEIGHT;
     }
 
-    public void movePiece(Point point, int val) {
+    public void movePiece(PointBackup point, String val) {
         this.maps.set(point, val);
-        this.maps.set(point.getNeighbour(direction), Point.VERTICAL_PIECE_BOTTOM);
-        this.maps.set(point.offsetY(+2), Point.SPACE);
+        this.maps.set(point.getNeighbour(direction), PointBackup.getBottomPieceFromTop(val));
+        this.maps.set(point.offsetY(+2), PointBackup.SPACE);
     }
 }

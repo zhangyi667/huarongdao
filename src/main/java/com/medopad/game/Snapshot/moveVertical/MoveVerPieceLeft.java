@@ -1,12 +1,12 @@
 package com.medopad.game.Snapshot.moveVertical;
 
-import com.medopad.game.Point;
+import com.medopad.game.PointBackup;
 import com.medopad.game.Snapshot.Direction;
 import com.medopad.game.Snapshot.Snapshot;
 
 public class MoveVerPieceLeft extends MoveVerPiece {
 
-    public MoveVerPieceLeft(Snapshot from, Direction direction, int val) {
+    public MoveVerPieceLeft(Snapshot from, Direction direction, String val) {
         super(from, direction, val);
     }
 
@@ -15,16 +15,16 @@ public class MoveVerPieceLeft extends MoveVerPiece {
         this.space2.x -= VER_LENGTH;
     }
 
-    public void movePiece(Point point, int val) {
+    public void movePiece(PointBackup point, String val) {
         this.maps.set(point, val);
-        this.maps.set(point.left(), Point.SPACE);
+        this.maps.set(point.left(), PointBackup.SPACE);
 
-        if (val == Point.VERTICAL_PIECE_TOP) {
-            this.maps.set(point.down(), Point.VERTICAL_PIECE_BOTTOM);
-            this.maps.set(point.offset(-1, 1), 0);
-        } else if (val == Point.VERTICAL_PIECE_BOTTOM) {
-            this.maps.set(point.up(), Point.VERTICAL_PIECE_TOP);
-            this.maps.set(point.offset(-1, -1), 0);
+        if (PointBackup.belongsToVerticalPieceTop(val)) {
+            this.maps.set(point.down(), PointBackup.getBottomPieceFromTop(val));
+            this.maps.set(point.offset(-1, 1), PointBackup.SPACE);
+        } else if (PointBackup.belongsToVerticalPieceBottom(val)) {
+            this.maps.set(point.up(), PointBackup.getTopPieceFromBottom(val));
+            this.maps.set(point.offset(-1, -1), PointBackup.SPACE);
         }
     }
 }

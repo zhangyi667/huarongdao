@@ -1,35 +1,35 @@
 package com.medopad.game.Snapshot;
 
 import com.medopad.Util.NotNullLinkedList;
-import com.medopad.game.Maps;
-import com.medopad.game.Point;
+import com.medopad.game.MapsBackup;
+import com.medopad.game.PointBackup;
+import sun.plugin.dom.exception.InvalidStateException;
 
 import java.util.LinkedList;
 import java.util.List;
 
 
 public class Snapshot {
-    protected Maps maps;
+    protected MapsBackup maps;
+    protected PointBackup space1;
 
-    protected Point space1;
-
-    protected Point space2;
+    protected PointBackup space2;
 
     public Snapshot getParent() {
         return parent;
     }
 
-    public Maps getMaps() {
+    public MapsBackup getMaps() {
         return this.maps;
     }
 
-    public Point getSpace1() {
+    public PointBackup getSpace1() {
         return this.space1;
     }
 
-    public void movePiece(Point point, int val) {
-        this.maps.set(point, val);
-        this.maps.set(point.left(), 0);
+    public void movePiece(PointBackup point, String val) {
+//        getMaps().set(point, val);
+//        getMaps().set(point.left(), PointBackup.SPACE);
     }
 
     private void setParent(Snapshot parent) {
@@ -41,18 +41,19 @@ public class Snapshot {
 
 
     public Snapshot(Snapshot from) {
-        this.maps = new Maps(from.maps);
-        this.space1 = new Point(from.space1);
-        this.space2 = new Point(from.space2);
+        this.maps = new MapsBackup(from.maps);
+        this.space1 = new PointBackup(from.space1);
+        this.space2 = new PointBackup(from.space2);
+        if (!this.maps.get(this.space1).equals(PointBackup.SPACE))
+           throw new InvalidStateException("Why is this not space");
     }
 
-    public Snapshot(int maps[], int rows, int cols) {
-        this.maps = new Maps(maps, rows, cols);
-        Point[] points = this.maps.space();
+    public Snapshot(String[][] maps) {
+        this.maps = new MapsBackup(maps);
+        PointBackup[] points = getMaps().space();
         space1 = points[0];
         space2 = points[1];
     }
-
 
     public List<Snapshot> listAllPossibleNextMove() {
         List<Snapshot> arr = new NotNullLinkedList<>();
@@ -63,15 +64,14 @@ public class Snapshot {
         return arr;
     }
 
-
     protected Snapshot createSnapshot1(Direction direction) {
-        if (direction == Direction.LEFT && this.space1.x >= 1) {
+        if (direction == Direction.LEFT && this.space1.x >= 2) { // because of border 'x'
             return getSnapshot(direction);
-        } else if (direction == Direction.RIGHT && this.space1.x < maps.getCols() - 1) {
+        } else if (direction == Direction.RIGHT && this.space1.x < maps.getCols() - 2) {
             return getSnapshot(direction);
-        } else if (direction == Direction.UP && this.space1.y >= 1) {
+        } else if (direction == Direction.UP && this.space1.y >= 2) {
             return getSnapshot(direction);
-        } else if (direction == Direction.DOWN && this.space1.y < maps.getRows() - 1) {
+        } else if (direction == Direction.DOWN && this.space1.y < maps.getRows() - 2) {
             return getSnapshot(direction);
         }
         return null;
@@ -79,7 +79,7 @@ public class Snapshot {
 
     private Snapshot getSnapshot(Direction direction) {
         Snapshot snapshot;
-        int val = maps.get(this.space1.getNeighbour(direction));
+        String val = maps.get(this.space1.getNeighbour(direction));
         snapshot = SnapshotFactory.getSnapshot(val, direction, this);
         if (null != snapshot)
             snapshot.movePiece(this.space1, val);
@@ -87,65 +87,65 @@ public class Snapshot {
     }
 
 
-    protected Snapshot createSnapshot2(Point point, Direction direction) {
-        int val;
+    protected Snapshot createSnapshot2(PointBackup point, Direction direction) {
+        String val;
         Snapshot snapshot = null;
 
-        if (direction == Direction.LEFT && this.space2.x >= 1) {
+        if (direction == Direction.LEFT && this.space2.x >= 2) {
             val = maps.get(this.space2.left());
-            if (val == Point.SINGLE_PIECE) {
+            if (PointBackup.isSinglePiece(val)) {
                 snapshot = new Snapshot(this);
                 snapshot.space2.x -= 1;
                 snapshot.maps.set(this.space2, val);
-                snapshot.maps.set(this.space2.left(), 0);
-            } else if (val == Point.HOR_PIECE_RIGHT) {
+                snapshot.maps.set(this.space2.left(), PointBackup.SPACE);
+            } else if (val.equals(PointBackup.HOR_PIECE_RIGHT)) {
                 snapshot = new Snapshot(this);
                 snapshot.space2.x -= 2;
                 snapshot.maps.set(this.space2, val);
-                snapshot.maps.set(this.space2.left(), 2);
-                snapshot.maps.set(this.space2.offsetX(-2), 0);
+                snapshot.maps.set(this.space2.left(), PointBackup.HOR_PIECE_LEFT);
+                snapshot.maps.set(this.space2.offsetX(-2), PointBackup.SPACE);
             }
-        } else if (direction == Direction.RIGHT && this.space2.x < maps.cols - 1) {
+        } else if (direction == Direction.RIGHT && this.space2.x < maps.getCols() - 2) {
             val = maps.get(this.space2.right());
-            if (val == Point.SINGLE_PIECE) {
+            if (PointBackup.isSinglePiece(val)) {
                 snapshot = new Snapshot(this);
                 snapshot.space2.x += 1;
                 snapshot.maps.set(this.space2, val);
-                snapshot.maps.set(this.space2.right(), 0);
-            } else if (val == Point.HOR_PIECE_LEFT) {
+                snapshot.maps.set(this.space2.right(), PointBackup.SPACE);
+            } else if (val.equals(PointBackup.HOR_PIECE_LEFT)) {
                 snapshot = new Snapshot(this);
                 snapshot.space2.x += 2;
                 snapshot.maps.set(this.space2, val);
-                snapshot.maps.set(this.space2.right(), 3);
-                snapshot.maps.set(this.space2.offsetX(+2), 0);
+                snapshot.maps.set(this.space2.right(), PointBackup.HOR_PIECE_RIGHT);
+                snapshot.maps.set(this.space2.offsetX(+2), PointBackup.SPACE);
             }
-        } else if (direction == Direction.UP && this.space2.y >= 1) {
+        } else if (direction == Direction.UP && this.space2.y >= 2) {
             val = maps.get(this.space2.up());
-            if (val == Point.SINGLE_PIECE) {
+            if (PointBackup.isSinglePiece(val)) {
                 snapshot = new Snapshot(this);
                 snapshot.space2.y -= 1;
                 snapshot.maps.set(this.space2, val);
-                snapshot.maps.set(this.space2.up(), 0);
-            } else if (val == Point.VERTICAL_PIECE_BOTTOM) {
+                snapshot.maps.set(this.space2.up(), PointBackup.SPACE);
+            } else if (PointBackup.belongsToVerticalPieceBottom(val)) {
                 snapshot = new Snapshot(this);
                 snapshot.space2.y -= 2;
-                snapshot.maps.set(this.space2, 5);
-                snapshot.maps.set(this.space2.up(), 4);
-                snapshot.maps.set(this.space2.offsetY(-2), 0);
+                snapshot.maps.set(this.space2, val);
+                snapshot.maps.set(this.space2.up(), PointBackup.getTopPieceFromBottom(val));
+                snapshot.maps.set(this.space2.offsetY(-2), PointBackup.SPACE);
             }
-        } else if (direction == Direction.DOWN && this.space2.y < maps.rows - 1) {
+        } else if (direction == Direction.DOWN && this.space2.y < maps.getRows() - 2) {
             val = maps.get(this.space2.down());
-            if (val == Point.SINGLE_PIECE) {
+            if (PointBackup.isSinglePiece(val)) {
                 snapshot = new Snapshot(this);
                 snapshot.space2.y += 1;
                 snapshot.maps.set(this.space2, val);
-                snapshot.maps.set(this.space2.down(), 0);
-            } else if (val == Point.VERTICAL_PIECE_TOP) {
+                snapshot.maps.set(this.space2.down(), PointBackup.SPACE);
+            } else if (PointBackup.belongsToVerticalPieceTop(val)) {
                 snapshot = new Snapshot(this);
                 snapshot.space2.y += 2;
-                snapshot.maps.set(this.space2, 4);
-                snapshot.maps.set(this.space2.down(), 5);
-                snapshot.maps.set(this.space2.offsetY(+2), 0);
+                snapshot.maps.set(this.space2, val);
+                snapshot.maps.set(this.space2.down(), PointBackup.getBottomPieceFromTop(val));
+                snapshot.maps.set(this.space2.offsetY(+2), PointBackup.SPACE);
             }
         }
 
@@ -157,10 +157,11 @@ public class Snapshot {
         child.setParent(this);
     }
 
-    public boolean isEnd(Point endPosition1, Point endPosition2) {
-        int val1 = maps.get(endPosition1);
-        int val2 = maps.get(endPosition2);
-        return val1 >= 8 && val2 >= 8;
+    public boolean isEnd(PointBackup endPositionLeft, PointBackup endPositionRight) {
+        String left = maps.get(endPositionLeft);
+        String right = maps.get(endPositionRight);
+        return (PointBackup.D_PIECE_LEFT_BOT.equals(left) || PointBackup.D_PIECE_RIGHT_BOT.equals(left)) &&
+                (PointBackup.D_PIECE_LEFT_BOT.equals(right) || PointBackup.D_PIECE_RIGHT_BOT.equals(right));
     }
 
 

@@ -1,11 +1,7 @@
 package com.medopad.test;
 
-import com.medopad.Util.PuzzleParser;
 import com.medopad.game.MapsBackup;
-import com.medopad.game.Point;
 import org.junit.Test;
-
-import java.util.Arrays;
 
 public class TestMaps {
     private String[][] validInput = new String[][] {

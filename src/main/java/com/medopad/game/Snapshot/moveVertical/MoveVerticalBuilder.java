@@ -1,11 +1,11 @@
 package com.medopad.game.Snapshot.moveVertical;
 
-import com.medopad.game.Point;
+import com.medopad.game.PointBackup;
 import com.medopad.game.Snapshot.Direction;
 import com.medopad.game.Snapshot.Snapshot;
 
 public class MoveVerticalBuilder {
-    public static MoveVerPiece build(int val, Snapshot snapshot, Direction direction) {
+    public static MoveVerPiece build(String val, Snapshot snapshot, Direction direction) {
         switch (direction) {
             case LEFT: {
                if (hasEnoughSpaceToMoveLeft(val, snapshot)) {
@@ -20,13 +20,13 @@ public class MoveVerticalBuilder {
                 return null;
             }
             case UP: {
-                if (val == Point.VERTICAL_PIECE_BOTTOM) {
+                if (PointBackup.belongsToVerticalPieceBottom(val)) {
                     return new MoveVerPieceUp(snapshot, direction, val);
                 }
                 return null;
             }
             case DOWN:
-                if (val == Point.VERTICAL_PIECE_TOP) {
+                if (PointBackup.belongsToVerticalPieceTop(val)) {
                     return new MoveVerPieceDown(snapshot, direction, val);
                 }
                 return null;
@@ -36,17 +36,17 @@ public class MoveVerticalBuilder {
         }
     }
 
-    private static boolean hasEnoughSpaceToMoveRight(int val, Snapshot snapshot) {
+    private static boolean hasEnoughSpaceToMoveRight(String val, Snapshot snapshot) {
         return hasEnoughSpace(val, snapshot);
     }
 
-    private static boolean hasEnoughSpaceToMoveLeft(int val, Snapshot snapshot) {
+    private static boolean hasEnoughSpaceToMoveLeft(String val, Snapshot snapshot) {
         return hasEnoughSpace(val, snapshot);
     }
 
-    private static boolean hasEnoughSpace(int val, Snapshot snapshot) {
-        return (val == Point.VERTICAL_PIECE_TOP && snapshot.getMaps().get(snapshot.getSpace1().down()) == Point.SPACE) ||
-                (val == Point.VERTICAL_PIECE_BOTTOM && snapshot.getMaps().get(snapshot.getSpace1().up()) == Point.SPACE);
+    private static boolean hasEnoughSpace(String val, Snapshot snapshot) {
+        return (PointBackup.belongsToVerticalPieceTop(val) && snapshot.getMaps().get(snapshot.getSpace1().down()).equals(PointBackup.SPACE)) ||
+                (PointBackup.belongsToVerticalPieceBottom(val) && snapshot.getMaps().get(snapshot.getSpace1().up()).equals(PointBackup.SPACE));
     }
 
 }

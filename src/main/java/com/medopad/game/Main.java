@@ -1,37 +1,23 @@
 package com.medopad.game;
 
+import com.medopad.Util.PuzzleParser;
 import com.medopad.game.Snapshot.Snapshot;
 
 import java.util.*;
 
 public class Main {
-    public static void main(String args[])
-    {
-
+    public static void main(String args[]) {
         long current = System.currentTimeMillis();
-
-        int maps[] = {
-                4, 6, 7, 4,
-                5, 8, 9, 5,
-                1, 2, 3, 1,
-                4, 1, 1, 4,
-                5, 0, 0, 5
+        String[][] maps = new String[][] {
+                new String[] {"X", "X", "X", "X", "X", "X"},
+                new String[] {"X", "A", "D", "D", "H", "X"},
+                new String[] {"X", "A", "D", "D", "H", "X"},
+                new String[] {"X", "B", "E", "E", "I", "X"},
+                new String[] {"X", "B", "F", "G", "I", "X"},
+                new String[] {"X", "C", " ", " ", "J", "X"},
+                new String[] {"X", "X", "Z", "Z", "X", "X"}
         };
-
-        /**
-         *
-         XXXXXX
-         XADDHX
-         XADDHX
-         XBEEIX
-         XBFGIX
-         XC  JX
-         XXZZXX
-         *
-         * **/
-
-        Stack<Snapshot> stack = getSnapshots(maps);
-
+        Stack<Snapshot> stack = getSnapshots(PuzzleParser.parse(maps));
         printAllMoves(stack);
         System.out.println("In total " + (System.currentTimeMillis() - current) + " milli seconds");
     }
@@ -47,8 +33,8 @@ public class Main {
         System.out.println("total step: "+steps);
     }
 
-    private static Stack<Snapshot> getSnapshots(int[] maps) {
-        Game game = new Game(maps, 5, 4, new Point(1, 4), new Point(2, 4));
+    private static Stack<Snapshot> getSnapshots(String[][] maps) {
+        Game game = new Game(maps);
         Snapshot snapshot = game.find();
         Stack<Snapshot> stack = new Stack<>();
         while (snapshot != null) {

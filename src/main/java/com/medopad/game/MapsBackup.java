@@ -19,7 +19,7 @@ public class MapsBackup {
         this.cols = other.cols;
     }
 
-    public String get(Point position) {
+    public String get(PointBackup position) {
         return get(position.x, position.y);
     }
 
@@ -35,7 +35,7 @@ public class MapsBackup {
         return maps[y][x];
     }
 
-    public void set(Point position, String val) {
+    public void set(PointBackup position, String val) {
         set(position.x, position.y, val);
     }
 
@@ -43,13 +43,13 @@ public class MapsBackup {
         maps[y][x] = val;
     }
 
-    public Point[] space() {
-        Point[] points = new Point[EXIT_SIZE];
+    public PointBackup[] space() {
+        PointBackup[] points = new PointBackup[EXIT_SIZE];
         int index = 0;
         for (int i = 0; i < getRows(); i++) {
             for (int j = 0; j < getCols(); j++) {
                 if (get(j, i).equals(PointBackup.SPACE)) {
-                    points[index] = new Point(j, i);
+                    points[index] = new PointBackup(j, i);
                     index++;
                 }
             }
