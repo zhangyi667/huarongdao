@@ -9,13 +9,13 @@ import com.medopad.game.Snapshot.moveVertical.MoveVerticalBuilder;
 public class SnapshotFactory {
 
     public static Snapshot getSnapshot(int val, Direction direction, Snapshot snapshot) {
-        if (val == Point.SINGLE_PIECE) {
+        if (Point.isSinglePiece(val)) {
             return MoveSingleBuilder.build(snapshot, direction);
-        } else if (val == Point.HOR_PIECE_RIGHT || val == Point.HOR_PIECE_LEFT) {
+        } else if (Point.belongsToHorizonPiece(val)) {
             return MoveHorizonBuilder.build(val, snapshot, direction);
-        } else if (val == Point.VERTICAL_PIECE_TOP || val == Point.VERTICAL_PIECE_BOTTOM) {
+        } else if (Point.belongsToVertivalPiece(val)) {
             return MoveVerticalBuilder.build(val, snapshot, direction);
-        } else if (val >= 6) {
+        } else if (Point.belongsToDPiece(val)) {
             return MoveDBuilder.build(val, snapshot, direction);
         }
         return null;

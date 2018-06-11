@@ -1,5 +1,6 @@
 package com.medopad.game;
 
+import com.medopad.Util.PuzzleParser;
 import com.medopad.game.Snapshot.Snapshot;
 
 import java.util.HashSet;
@@ -10,6 +11,7 @@ import java.util.Queue;
 
 public class Game {
     protected int maps[];
+    protected String[][] mapsBackup;
     protected int rows;
     protected int cols;
 
@@ -30,24 +32,29 @@ public class Game {
         this.endPosition2 = endPosition2;
 
     }
+    public Game(String[][] maps) {
+        this.mapsBackup = maps;
+        this.rows = maps.length;
+        this.cols = maps[0].length;
+        Point[] arr = PuzzleParser.findExit(maps);
+        this.endPosition1 = arr[0];
+        this.endPosition2 = arr[1];
+    }
 
     public Snapshot find() {
         Snapshot node;
         String key;
-        List<Snapshot> nexts;
-
+        List<Snapshot> nextMoves;
         root = new Snapshot(maps, rows, cols);
         queue = new LinkedList<>();
         queue.add(root);
         key = root.getHashKey();
         collections.add(key);
-
         while (!queue.isEmpty()) {
             node = queue.poll();
             if(null == node) continue;
-            nexts = node.listAllPossibleNextMove();
-
-            for (Snapshot next : nexts) {
+            nextMoves = node.listAllPossibleNextMove();
+            for (Snapshot next : nextMoves) {
                 key = next.getHashKey();
                 if (collections.contains(key)) {
                     continue;

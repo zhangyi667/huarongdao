@@ -65,19 +65,19 @@ public class Point {
     }
 
 
-    public boolean isSinglePiece(int val) {
+    public static boolean isSinglePiece(int val) {
         return val == SINGLE_PIECE;
     }
 
-    public boolean belongsToVertivalPiece(int val) {
+    public static boolean belongsToVertivalPiece(int val) {
         return val == VERTICAL_PIECE_BOTTOM || val == VERTICAL_PIECE_TOP;
     }
 
-    public boolean belongsToHorizonPiece(int val) {
+    public static boolean belongsToHorizonPiece(int val) {
         return val == HOR_PIECE_RIGHT || val == HOR_PIECE_LEFT;
     }
 
-    public boolean belongsToDPiece(int val) {
-        return val > 6;
+    public static boolean belongsToDPiece(int val) {
+        return val == D_PIECE_LEFT_TOP || val == D_PIECE_RIGHT_TOP || val == D_PIECE_LEFT_BOT || val == D_PIECE_RIGHT_BOT;
     }
 }
