@@ -4,17 +4,6 @@ import com.medopad.game.Maps;
 import org.junit.Test;
 
 public class TestMaps {
-    private String[][] validInput = new String[][] {
-            new String[] {"X", "X", "X", "X", "X", "X"},
-            new String[] {"X", "A", "D", "D", "H", "X"},
-            new String[] {"X", "A", "D", "D", "H", "X"},
-            new String[] {"X", "B", "E", "E", "I", "X"},
-            new String[] {"X", "B", "F", "G", "I", "X"},
-            new String[] {"X", "C", " ", " ", "J", "X"},
-            new String[] {"X", "X", "Z", "Z", "X", "X"}
-    };
-
-
     private String[][] expectedOutput = new String[][] {
             new String[] {"X", "X", "X", "X", "X", "X"},
             new String[] {"X", "A", "6", "7", "H", "X"},

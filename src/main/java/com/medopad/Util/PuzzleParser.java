@@ -1,7 +1,7 @@
 package com.medopad.Util;
 
 import com.medopad.game.Maps;
-import com.medopad.game.Point;
+import com.medopad.game.PointConstant;
 
 public class PuzzleParser {
 
@@ -21,10 +21,10 @@ public class PuzzleParser {
             for (int j = 0; j < col; j++) {
                 if (visited[i][j]) continue;
                 String piece = newRow[j];
-                if (!Point.LEGAL_CHARACTERS.contains(piece)) {
+                if (!PointConstant.Point.LEGAL_CHARACTERS.contains(piece)) {
                     throw new IllegalArgumentException(String.format("%s is not a valid input", piece));
                 }
-                if (Point.BORDER.equals(piece) || Point.SPACE.equals(piece) || Point.EXIT_CHARACTER.equals(piece)) {
+                if (PointConstant.Point.BORDER.equals(piece) || PointConstant.Point.SPACE.equals(piece) || PointConstant.Point.EXIT_CHARACTER.equals(piece)) {
                     res[i][j] = piece;
                     visited[i][j] = true;
                     continue;
@@ -53,14 +53,14 @@ public class PuzzleParser {
     }
 
     private static boolean borderInvalid(String[] newRow, int col) {
-        return !newRow[0].equals(Point.BORDER) || !newRow[col - 1].equals(Point.BORDER);
+        return !newRow[0].equals(PointConstant.Point.BORDER) || !newRow[col - 1].equals(PointConstant.Point.BORDER);
     }
 
     private static void parseDPiece(String[][] input, String[][] res, int i, int j, boolean[][] visited) {
-        res[i][j] = Point.D_PIECE_LEFT_TOP;
-        res[i][j + 1] = Point.D_PIECE_RIGHT_TOP;
-        res[i + 1][j] = Point.D_PIECE_LEFT_BOT;
-        res[i + 1][j + 1] = Point.D_PIECE_RIGHT_BOT;
+        res[i][j] = PointConstant.Point.D_PIECE_LEFT_TOP;
+        res[i][j + 1] = PointConstant.Point.D_PIECE_RIGHT_TOP;
+        res[i + 1][j] = PointConstant.Point.D_PIECE_LEFT_BOT;
+        res[i + 1][j + 1] = PointConstant.Point.D_PIECE_RIGHT_BOT;
         visited[i][j] = true;
         visited[i][j + 1] = true;
         visited[i + 1][j] = true;
@@ -69,14 +69,14 @@ public class PuzzleParser {
 
     private static void parseHorPiece(String[][] input, String[][] res, int i, int j, boolean[][] visited) {
         res[i][j] = input[i][j];
-        res[i][j + 1] = Point.HOR_PIECE_RIGHT;
+        res[i][j + 1] = PointConstant.Point.HOR_PIECE_RIGHT;
         visited[i][j] = true;
         visited[i][j + 1] = true;
     }
 
     private static void parseVerticalPiece(String[][] input, String[][] res, int i, int j, boolean[][] visited) {
         res[i][j] = input[i][j];
-        res[i + 1][j] = Point.getBottomPieceFromTop(input[i][j]);
+        res[i + 1][j] = PointConstant.Point.getBottomPieceFromTop(input[i][j]);
         visited[i][j] = true;
         visited[i + 1][j] = true;
     }
@@ -100,15 +100,15 @@ public class PuzzleParser {
     }
 
     private static boolean isDPiece(String piece) {
-        return Point.D_PIECE.equals(piece);
+        return PointConstant.Point.D_PIECE.equals(piece);
     }
 
     private static boolean isVerticalPiece(String piece) {
-        return Point.belongsToVerticalPieceTop(piece);
+        return PointConstant.Point.belongsToVerticalPieceTop(piece);
     }
 
     private static boolean isHorizonPiece(String piece) {
-        return Point.HOR_PIECE_LEFT.equals(piece);
+        return PointConstant.Point.HOR_PIECE_LEFT.equals(piece);
     }
 
     private static void parseSinglePiece(String[][] input, String[][] res, int i, int j, boolean[][] visited) {
@@ -116,17 +116,17 @@ public class PuzzleParser {
         visited[i][j] = true;
     }
 
-    public static Point[] findExit(String[][] res) {
-        Point[] arr = new Point[Maps.EXIT_SIZE];
+    public static PointConstant.Point[] findExit(String[][] res) {
+        PointConstant.Point[] arr = new PointConstant.Point[Maps.EXIT_SIZE];
         int index = 0;
         for (int i = 0; i < res.length; i++) {
             for (int j = 0; j < res[0].length; j++) {
                 if (index == Maps.EXIT_SIZE)
                     break;
-                if (!Point.EXIT_CHARACTER.equals(res[i][j])) continue;
+                if (!PointConstant.Point.EXIT_CHARACTER.equals(res[i][j])) continue;
                 if (i < 1)
                     throw new IllegalArgumentException();
-                arr[index++] = new Point(j, i - 1);
+                arr[index++] = new PointConstant.Point(j, i - 1);
             }
         }
         return arr;

@@ -17,12 +17,20 @@ public class Main {
                 new String[] {"X", "C", " ", " ", "J", "X"},
                 new String[] {"X", "X", "Z", "Z", "X", "X"}
         };
-        Stack<Snapshot> stack = getSnapshots(PuzzleParser.parse(maps));
-        printAllMoves(stack);
+        traverseAndPrint(maps);
         System.out.println("In total " + (System.currentTimeMillis() - current) + " milli seconds");
     }
 
+    private static void traverseAndPrint(String[][] maps) {
+        Stack<Snapshot> stack = getSnapshots(PuzzleParser.parse(maps));
+        printAllMoves(stack);
+    }
+
     private static void printAllMoves(Stack<Snapshot> stack) {
+        if (null == stack || stack.isEmpty()) {
+            System.out.println("There seems no answer for the puzzle :(");
+            return;
+        }
         int steps = 0;
         while (!stack.empty()) {
             Snapshot temp = stack.pop();
@@ -34,8 +42,7 @@ public class Main {
     }
 
     private static Stack<Snapshot> getSnapshots(String[][] maps) {
-        Game game = new Game(maps);
-        Snapshot snapshot = game.find();
+        Snapshot snapshot = new Game(maps).find();
         Stack<Snapshot> stack = new Stack<>();
         while (snapshot != null) {
             stack.add(snapshot);

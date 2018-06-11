@@ -2,7 +2,7 @@ package com.medopad.test;
 
 import com.medopad.Util.PuzzleParser;
 import com.medopad.game.Maps;
-import com.medopad.game.Point;
+import com.medopad.game.PointConstant;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -38,6 +38,16 @@ public class TestPuzzleParser {
             new String[] {"X", "X", "Z", "Z", "X", "X"}
     };
 
+    private String[][] inValidInput3 = new String[][] {
+            new String[] {"X", "X", "X", "X", "X", "X"},
+            new String[] {"X", "A", "D", "D", "H", "X"},// "A"
+            new String[] {"X", "B", "D", "D", "H", "X"},// "B" is not a valid vertical piece.
+            new String[] {"X", "B", "E", "E", "I", "X"},
+            new String[] {"X", "B", "F", "G", "I", "X"},
+            new String[] {"X", "C", " ", " ", "J", "X"},
+            new String[] {"X", "X", "Z", "Z", "X", "X"}
+    };
+
     private String[][] expectedOutput = new String[][] {
             new String[] {"X", "X", "X", "X", "X", "X"},
             new String[] {"X", "A", "6", "7", "H", "X"},
@@ -58,10 +68,15 @@ public class TestPuzzleParser {
         String[][] res = PuzzleParser.parse(inValidInput);
     }
 
-   @Test(expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void thrownExceptionForInvalidParams2() {
         String[][] res = PuzzleParser.parse(inValidInput2);
     }
+
+    @Test(expected = IllegalArgumentException.class)
+        public void thrownExceptionForInvalidParams3() {
+            String[][] res = PuzzleParser.parse(inValidInput3);
+        }
 
     @Test
     public void testParser() {
@@ -76,7 +91,7 @@ public class TestPuzzleParser {
     @Test
     public void testFindExit() {
         String[][] res = PuzzleParser.parse(validInput);
-        Point[] arr = PuzzleParser.findExit(res);
+        PointConstant.Point[] arr = PuzzleParser.findExit(res);
         assert arr.length == Maps.EXIT_SIZE;
         assert arr[0].y == 5 && arr[0].x == 2;
         assert arr[1].y == 5 && arr[1].x == 3;

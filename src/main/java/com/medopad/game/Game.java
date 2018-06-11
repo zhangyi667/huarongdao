@@ -19,14 +19,14 @@ public class Game {
 
     private HashSet<String> collections = new HashSet<>();
 
-    private Point endPositionLeft;
-    private Point endPositionRight;
+    private PointConstant.Point endPositionLeft;
+    private PointConstant.Point endPositionRight;
 
     Game(String[][] maps) {
         this.mapsBackup = maps;
         this.rows = maps.length;
         this.cols = maps[0].length;
-        Point[] arr = PuzzleParser.findExit(maps);
+        PointConstant.Point[] arr = PuzzleParser.findExit(maps);
         this.endPositionLeft = arr[0];
         this.endPositionRight = arr[1];
     }
