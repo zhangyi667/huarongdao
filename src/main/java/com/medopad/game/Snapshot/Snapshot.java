@@ -44,8 +44,6 @@ public class Snapshot {
         this.maps = new MapsBackup(from.maps);
         this.space1 = new PointBackup(from.space1);
         this.space2 = new PointBackup(from.space2);
-        if (!this.maps.get(this.space1).equals(PointBackup.SPACE))
-           throw new InvalidStateException("Why is this not space");
     }
 
     public Snapshot(String[][] maps) {

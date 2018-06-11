@@ -14,11 +14,18 @@ public class MapsBackup {
     }
 
     public MapsBackup(MapsBackup other) {
-        this.maps = other.maps.clone();
+        this.maps = cloneMaps(other);
         this.rows = other.rows;
         this.cols = other.cols;
     }
 
+    private String[][] cloneMaps(MapsBackup other) {
+        String[][] res = new String[other.rows][other.cols];
+        for (int i = 0; i < other.rows; i++) {
+            res[i] = other.maps[i].clone();
+        }
+        return res;
+    }
     public String get(PointBackup position) {
         return get(position.x, position.y);
     }
