@@ -26,33 +26,3 @@ EE is horizon piece.
 C F G J are single pieces.
 D is the 2 x 2 piece.
 X is the border. ZZ is the exit, and space is space.
-Output is like: 
-
-----------------
-X X X X X X 
-X A D D H X 
-X A D D H X 
-X B E E I X 
-X B F G I X 
-X C     J X 
-X X Z Z X X 
-
-----------------
-X X X X X X 
-X A D D H X 
-X A D D H X 
-X B E E I X 
-X B F G I X 
-X   C   J X 
-X X Z Z X X 
-
-.....
-
-----------------
-X X X X X X 
-X I B H A X 
-X I B H A X 
-X F J E E X 
-X   D D G X 
-X   D D C X 
-X X Z Z X X 
