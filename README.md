@@ -14,11 +14,17 @@
 ## Example input is like:
 
 XXXXXX
+
 XADDHX
+
 XADDHX
+
 XBEEIX
+
 XBFGIX
+
 XC  JX
+
 XXZZXX
 
 A B H I are vertical pieces.
